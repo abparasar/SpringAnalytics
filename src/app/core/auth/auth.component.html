@@ -1,0 +1,92 @@
+<form [formGroup]="authForm">
+    <div class="row">
+        <div style="padding-top: 100px ;" class="col-xs-12 col-md-4 offset-md-4">
+            <div *ngIf="authFormError != ''" class="alert alert-danger">
+                <p>{{authFormError}}</p>
+            </div>
+            <div class="form-group">
+                <label for="email">E-Mail:</label>
+                <div class="input-group">
+                    <input type="email" id="email" (focus)="authFormError = ''" class="form-control" formControlName="email" name="email">
+                    <div *ngIf="authForm.controls.email.touched && !authForm.controls.email.valid"
+                        class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-times" style="color:red;"></i></span>
+                    </div>
+                    <div *ngIf="authForm.controls.email.valid" class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-check" style="color: green;"></i></span>
+                    </div>
+                </div>
+            </div>
+            <!-- <div *ngIf="authForm.controls.email.touched && !authForm.controls.email.valid" class="alert alert-danger">
+                <p>Enter Valid Email</p>
+            </div> -->
+            <div *ngIf="visiblePage == 'signup' || visiblePage == 'signin'">
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <div class="input-group">
+                        <input type="password" id="password" class="form-control" formControlName="password"
+                            name="password">
+                        <div *ngIf="authForm.controls.password.touched && !authForm.controls.password.valid"
+                            class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-times" style="color:red;"></i></span>
+                        </div>
+                        <div *ngIf="authForm.controls.password.valid" class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-check" style="color: green;"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div *ngIf="authForm.controls.password.touched && !authForm.controls.password.valid"
+                    class="alert alert-danger">
+                    <p>Password should be of minimum 6 length</p>
+                </div> -->
+            </div>
+
+            <div *ngIf="visiblePage == 'signin'" class="form-group">
+                <a style="cursor: pointer; color: blueviolet;" (click)="visiblePageChange('reset')">Forgot Password?</a>
+            </div>
+
+            <div *ngIf="visiblePage == 'signup'">
+                <div class="form-group">
+                    <label for="password">Comfirm Password:</label>
+
+                    <div class="input-group">
+                        <input type="password" id="confirmPassword" class="form-control"
+                            formControlName="confirmPassword" name="confirmPassword">
+                        <div *ngIf="authForm.controls.confirmPassword.touched && (authForm.controls.password.value != authForm.controls.confirmPassword.value)"
+                            class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-times" style="color:red;"></i></span>
+                        </div>
+                        <div *ngIf="authForm.controls.confirmPassword.touched && authForm.controls.confirmPassword.value != '' && authForm.controls.password.value == authForm.controls.confirmPassword.value"
+                            class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-check" style="color: green;"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div *ngIf="authForm.controls.confirmPassword.touched && (authForm.controls.password.value != authForm.controls.confirmPassword.value)"
+                    class="alert alert-danger">
+                    <p>Confirm Password should match the password</p>
+                </div> -->
+            </div>
+            <div>
+                <button *ngIf="visiblePage == 'signin'" class="btn btn-primary" [disabled]="!authForm.valid"
+                    (click)="signIn()"><span> Sign In</span></button>
+                <button *ngIf="visiblePage == 'signup'" class="btn btn-primary"
+                    [disabled]="!authForm.valid || (authForm.controls.password.value != authForm.controls.confirmPassword.value)"
+                    (click)="signUp()"><span> Sign Up</span></button>
+                <button *ngIf="visiblePage == 'reset'" class="btn btn-primary"
+                    [disabled]="!authForm.controls.email.valid" (click)="reset()"><span> Reset
+                    </span></button>
+                |
+                <a *ngIf="visiblePage == 'signup' || visiblePage == 'reset'" style="cursor: pointer; color: blueviolet;"
+                    (click)="visiblePageChange('signin')">Back</a>
+                <a *ngIf="visiblePage == 'signin'" style="cursor: pointer; color: blueviolet;"
+                    (click)="visiblePageChange('signup')">New to Spring
+                    Analytics?</a>
+            </div>
+
+        </div>
+    </div>
+</form>
